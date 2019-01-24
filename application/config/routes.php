@@ -56,3 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['admin'] = 'admin/dashboard';
 $route['admin/prefs/interfaces/(:any)'] = 'admin/prefs/interfaces/$1';
 
+$route['api'] = 'api/index';
+
+$route['api/go_share/(:any)'] = 'api/Go_share/main/$1';
+$route['api/shared/(:any)'] = 'api/Shared/main/$1';
