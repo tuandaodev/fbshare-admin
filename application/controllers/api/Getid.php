@@ -7,7 +7,8 @@ class Getid extends CI_Controller {
     function __construct() {
          parent::__construct();
     }
-
+    
+    // Not Use
     public function index() {
         
         $Chatfluel = new Chatfuel();
@@ -38,25 +39,31 @@ class Getid extends CI_Controller {
         exit();
     }
 
-    public function by_app_id() {
-        
-        $Chatfluel = new Chatfuel();
+    public function fbid_by_appid() {
         
         $user_app_id = $this->input->get('user_app_id');
 
         // Test environment
-        if (!$user_app_id) $user_app_id = "0978126486";
+//        if (!$user_app_id) $user_app_id = "0978126486";
         
         // Options, will load from database table options
-        $page_id = "326208034543057";
-        $access_token = "EAADi8UzxnDQBAMefNXwTO525OPAwZBKgfBnuI9CF3ZBb1VWO4khz4HZBWRXWSIC9mdZCMjYdzacpusBsp9C1UZA6PZAdgqCwbw8I34uuZAFgtcq7LRAZAZCvyDFl4diFtEnZC832neYICSZABsn7sPcpJrwGtyrL1nHEUp4cRVNH7l72y4YgDPjmSrD";
-        $crawler_api = "http://35.240.146.108:8080";
-
-
-        $call_url = 'https://graph.facebook.com/v3.2/' . $page_id . '/conversations?fields=messages{message}&access_token=' . $access_token;
+//        $page_id = "326208034543057";
+//        $access_token = "EAADi8UzxnDQBAMefNXwTO525OPAwZBKgfBnuI9CF3ZBb1VWO4khz4HZBWRXWSIC9mdZCMjYdzacpusBsp9C1UZA6PZAdgqCwbw8I34uuZAFgtcq7LRAZAZCvyDFl4diFtEnZC832neYICSZABsn7sPcpJrwGtyrL1nHEUp4cRVNH7l72y4YgDPjmSrD";
+//        $crawler_api = "http://35.240.146.108:8080";
+        
+        $page_id = $this->option->get_option('page_id');
+        $page_access_token = $this->option->get_option('page_access_token');
+        $crawler_api = $this->option->get_option('crawler_api_url');
+        
+        $call_url = 'https://graph.facebook.com/v3.2/' . $page_id . '/conversations?fields=messages{message}&access_token=' . $page_access_token;
 
         $get_data = callAPI('GET', $call_url, false);
         $get_data = json_decode($get_data, true);
+        
+//        echo "<pre>";
+//        print_r($get_data);
+//        echo "</pre>";
+//        exit;
 
         //creating object of SimpleXMLElement
         $user_message = new SimpleXMLElement("<?xml version=\"1.0\"?><user_message></user_message>");
@@ -74,7 +81,6 @@ class Getid extends CI_Controller {
                     $parent_obj = $parent_temp[0];
                     break;
                 }
-                
             }
         }
 
@@ -96,12 +102,12 @@ class Getid extends CI_Controller {
             $response['result'] = -1;
             //$call_url = $crawler_api . '/api/get_redirect?url=' . $inbox_url;
             $inbox_id = trim($inbox_id);
-            $call_inbox_get_url = 'https://graph.facebook.com/v3.2/' . $inbox_id . '?access_token=' . $access_token;
-
+            $call_inbox_get_url = 'https://graph.facebook.com/v3.2/' . $inbox_id . '?access_token=' . $page_access_token;
+            
             $get_data_inbox_url = callAPI('GET', $call_inbox_get_url, false);
             $get_data_inbox_url = json_decode($get_data_inbox_url, true);
 
-            // print_r($get_data_inbox_url);
+//             print_r($get_data_inbox_url);
 
             if (isset($get_data_inbox_url['link']) && !empty($get_data_inbox_url['link'])) {
                 $response['result'] = 0;
@@ -111,11 +117,11 @@ class Getid extends CI_Controller {
                 $inbox_url = "https://en-gb.facebook.com/" . $inbox_url;
 
                 $call_fbuid_url = $crawler_api . '/api/get_redirect?url=' . $inbox_url;
-
+                
                 $get_data_fbuid = callAPI('GET', $call_fbuid_url, false);
                 $get_data_fbuid = json_decode($get_data_fbuid, true);
 
-                // print_r($get_data_fbuid);
+//                 print_r($get_data_fbuid);
 
                 if (isset($get_data_fbuid['result']) && ($get_data_fbuid['result'] == '1')) {
                     $response['result'] = 1;
@@ -129,8 +135,8 @@ class Getid extends CI_Controller {
 
                     // Chatflue response
 
-                    unset($response['result']);
-                    unset($response['fbuid']);
+//                    unset($response['result']);
+//                    unset($response['fbuid']);
 
                     $user_attr['user_fb_id'] = $fbuid;
                     $user_attr['has_fb_id'] = "1";
@@ -144,38 +150,45 @@ class Getid extends CI_Controller {
                     //https://api.chatfuel.com/bots/%3CBOT_ID%3E/users/%3CUSER_ID%3E/send?chatfuel_token=%3CTOKEN%3E&chatfuel_message_tag=%3CCHATFUEL_MESSAGE_TAG%3E&chatfuel_block_name=%3CBLOCK_NAME%3E&%3CUSER_ATTRIBUTE_1%3E=%3CVALUE_1%3E&%3CUSER_ATTRIBUTE_2%3E=%3CVALUE_2
                     
 
-                    $BOT_ID = "5a5b0d9ee4b0d02fdb4c8b17";
+//                    $BOT_ID = "5a5b0d9ee4b0d02fdb4c8b17";
+//                    $CUSER_ID = $user_app_id;  //"2373937132677212";
+//                    $CTOKEN = "vnbqX6cpvXUXFcOKr5RHJ7psSpHDRzO1hXBY8dkvn50ZkZyWML3YdtoCnKH7FSjC";
+//                    $BLOCK_GET_USER_INFO = "Get_user_info";
+                    
+                    $BOT_ID = $this->option->get_option('chatfuel_bot_id');
                     $CUSER_ID = $user_app_id;  //"2373937132677212";
-                    $CTOKEN = "vnbqX6cpvXUXFcOKr5RHJ7psSpHDRzO1hXBY8dkvn50ZkZyWML3YdtoCnKH7FSjC";
-                    $BLOCK_SHARED = "Get_user_info";
+                    $CTOKEN = $this->option->get_option('chatfuel_token');
+                    $BLOCK_GET_USER_INFO = $this->option->get_option('chatfuel_block_get_user_info');
 
                     $call_chat_fuel_url = 'https://api.chatfuel.com/bots/' . $BOT_ID . '/users/' . $CUSER_ID . '/send?chatfuel_token=' . $CTOKEN;
 
-                    $call_chat_fuel_url .= '&chatfuel_block_name=' . $BLOCK_SHARED;
+                    $call_chat_fuel_url .= '&chatfuel_block_name=' . $BLOCK_GET_USER_INFO;
                     $call_chat_fuel_url .= '&user_fb_id=' . $fbuid;
                     $call_chat_fuel_url .= '&has_fb_id=1';
 
-                    //echo $call_chat_fuel_url;
+//                    echo $call_chat_fuel_url;
 
                     $data = null;
-                    $data['chatfuel_block_name'] = $BLOCK_SHARED;  //User_not_shared
+                    $data['chatfuel_block_name'] = $BLOCK_GET_USER_INFO; 
                     $data['user_fb_id'] = $fbuid;
 
                     $get_data_fbuid = callAPI('POST', $call_chat_fuel_url, false);
 
                     $get_data_fbuid = json_decode($get_data_fbuid, true);
-                    exit();
+                    
+                    // On Prod, enable this line
+//                    exit();
                 }
             }
         }
 
-        // header('Content-Type: application/json');
-        // echo json_encode($response);
+        header('Content-Type: application/json');
+        echo json_encode($response);
         exit;
     }
 
 
-    // Draft
+    // Not Use
     public function by_app_id2() {
         
         $Chatfluel = new Chatfuel();

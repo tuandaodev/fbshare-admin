@@ -1,0 +1,7 @@
+#Links
+https://tecadmin.net/setup-selenium-with-chromedriver-on-debian/
+
+#Restart Java chrome driver server
+pkill Xvfb
+xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
+
