@@ -6,6 +6,7 @@ class Getid extends CI_Controller {
 
     function __construct() {
          parent::__construct();
+         $this->load->model('common/client_model');
     }
     
     // Not Use
@@ -50,6 +51,34 @@ class Getid extends CI_Controller {
 //        $page_id = "326208034543057";
 //        $access_token = "EAADi8UzxnDQBAMefNXwTO525OPAwZBKgfBnuI9CF3ZBb1VWO4khz4HZBWRXWSIC9mdZCMjYdzacpusBsp9C1UZA6PZAdgqCwbw8I34uuZAFgtcq7LRAZAZCvyDFl4diFtEnZC832neYICSZABsn7sPcpJrwGtyrL1nHEUp4cRVNH7l72y4YgDPjmSrD";
 //        $crawler_api = "http://35.240.146.108:8080";
+        
+        $user_exists_fbid = $this->client_model->get_fbid_by_appid($user_app_id);
+        
+//        echo "<pre>";
+//        print_r($user_exists_fbid);
+//        echo "</pre>";
+//        exit;
+        
+        if ($user_exists_fbid) {
+            $BOT_ID = $this->option->get_option('chatfuel_bot_id');
+            $CUSER_ID = $user_app_id;  //"2373937132677212";
+            $CTOKEN = $this->option->get_option('chatfuel_token');
+            $BLOCK_GET_USER_INFO = $this->option->get_option('chatfuel_block_get_user_info');
+
+            $call_chat_fuel_url = 'https://api.chatfuel.com/bots/' . $BOT_ID . '/users/' . $CUSER_ID . '/send?chatfuel_token=' . $CTOKEN;
+            $call_chat_fuel_url .= '&chatfuel_block_name=' . $BLOCK_GET_USER_INFO;
+            $call_chat_fuel_url .= '&user_fb_id=' . $user_exists_fbid;
+            $call_chat_fuel_url .= '&has_fb_id=1';
+
+            $data = null;
+            $data['chatfuel_block_name'] = $BLOCK_GET_USER_INFO; 
+            $data['user_fb_id'] = $user_exists_fbid;
+
+            $get_data_fbuid = callAPI('POST', $call_chat_fuel_url, false);
+            $get_data_fbuid = json_decode($get_data_fbuid, true);
+            
+            exit;
+        }
         
         $page_id = $this->option->get_option('page_id');
         $page_access_token = $this->option->get_option('page_access_token');
@@ -122,7 +151,6 @@ class Getid extends CI_Controller {
                 $get_data_fbuid = json_decode($get_data_fbuid, true);
 
 //                 print_r($get_data_fbuid);
-
                 if (isset($get_data_fbuid['result']) && ($get_data_fbuid['result'] == '1')) {
                     $response['result'] = 1;
 
@@ -134,7 +162,6 @@ class Getid extends CI_Controller {
                     $response['fbuid'] = $fbuid;
 
                     // Chatflue response
-
 //                    unset($response['result']);
 //                    unset($response['fbuid']);
 
@@ -146,9 +173,6 @@ class Getid extends CI_Controller {
                     
                     $response['set_attributes'] = $user_attr;
                     // $response['messages'] = $messages;
-
-                    //https://api.chatfuel.com/bots/%3CBOT_ID%3E/users/%3CUSER_ID%3E/send?chatfuel_token=%3CTOKEN%3E&chatfuel_message_tag=%3CCHATFUEL_MESSAGE_TAG%3E&chatfuel_block_name=%3CBLOCK_NAME%3E&%3CUSER_ATTRIBUTE_1%3E=%3CVALUE_1%3E&%3CUSER_ATTRIBUTE_2%3E=%3CVALUE_2
-                    
 
 //                    $BOT_ID = "5a5b0d9ee4b0d02fdb4c8b17";
 //                    $CUSER_ID = $user_app_id;  //"2373937132677212";
@@ -175,6 +199,14 @@ class Getid extends CI_Controller {
                     $get_data_fbuid = callAPI('POST', $call_chat_fuel_url, false);
 
                     $get_data_fbuid = json_decode($get_data_fbuid, true);
+                    
+                    // Insert to database
+                    if ($user_app_id && $fbuid) {
+                        $insert_data['user_app_id'] = $user_app_id;
+                        $insert_data['user_fb_id'] = $fbuid;
+                        
+                        $response['insert_result'] = $this->client_model->insert_update($insert_data);
+                    }
                     
                     // On Prod, enable this line
 //                    exit();
