@@ -253,7 +253,7 @@ function callAPI($method, $url, $data){
       'Content-Type: application/json'
    ));
    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-   curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+   //curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
    // EXECUTE:
    $result = curl_exec($curl);
