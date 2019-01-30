@@ -1,6 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH."/third_party/PHPExcel/autoload.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Clients extends Admin_Controller {
 
     public function __construct()
@@ -21,10 +28,6 @@ class Clients extends Admin_Controller {
         }
         else
         {
-
-            // print_r($this->router->get_controll);
-            // exit;
-
             /* Title Page */
             $this->page_title->push("Client List");
             $this->data['pagetitle'] = $this->page_title->show();
@@ -48,9 +51,46 @@ class Clients extends Admin_Controller {
 		}
         else
         {
+            
+            $list_header = array(
+                'id'            => 'ID',
+                'user_app_id'   => 'User App ID',
+                'user_fb_id'    => 'User FB ID',
+                'first_name'    => 'First Name',
+                'last_name'     => 'Last Name',
+                'gender'        => 'Gender',
+                'phone_number'  => 'Phone Number',
+                'location'      => 'Location',
+                'created'       => 'Date Created'
+            );
 
-            redirect('admin/clients', 'refresh');
+            $list_data = $this->client_model->get_clients();
+            foreach ($list_data as $key => $item) {
+                unset($list_data[$key]['email']);
+            }
+            write_excel($list_header, $list_data);
+            // redirect('admin/clients', 'refresh');
         }
 	}
+}
 
+function write_excel($list_header, $list_data) {
+    
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    
+    $sheet->fromArray($list_header,'','A1');
+    $sheet->fromArray($list_data, '', 'A2');
+
+    foreach(range('A','I') as $columnID) {
+        $sheet->getColumnDimension($columnID)
+            ->setAutoSize(true);
+    }
+
+    header('Content-type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename="client_export.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
 }
