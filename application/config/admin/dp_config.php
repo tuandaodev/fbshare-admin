@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['title']      = 'AdminLTE';
-$config['title_mini'] = 'LT';
-$config['title_lg']   = 'LTE';
+$config['title']      = 'Chat BOT';
+$config['title_mini'] = 'Chat BOT';
+$config['title_lg']   = 'Chat BOT';
 
 
 

@@ -52,6 +52,9 @@ class Breadcrumbs {
 
 	function show()
 	{
+
+		//print_r($this->breadcrumbs);
+
 		if ($this->breadcrumbs)
         {
 			$output = $this->breadcrumb_open ."\n";

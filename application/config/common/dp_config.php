@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['host_dev'] = array('localhost', '127.0.0.1', '::1');
 
 // Fill in the file of your project here when you develop locally.
-$host_dev = 'fbshare';
+$host_dev = 'localhost:1111/fbshare';
 
 // Fill in the domain name here when your project is online.
 // Example : www.johndoe.com
 //           johndoe.com
-$host_prod = 'zapi.cloud';
+$host_prod = 'localhost:1111/fbshare';
 
 // Remove this line on prod
 $host_prod = $host_dev;
