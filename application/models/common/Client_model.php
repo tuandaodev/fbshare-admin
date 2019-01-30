@@ -73,6 +73,11 @@ class Client_model extends CI_Model {
 //            $client_id = $query->row()->id;
             $user_app_id = $data['user_app_id'];
             unset($data['user_app_id']);
+
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $date = date('Y/m/d H:i:s', time());
+            $data['updated'] = $date;
+
             return $this->update_by_appid($data, $user_app_id);
         } else {
             return $this->insert($data);

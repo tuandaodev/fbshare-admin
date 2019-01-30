@@ -8,10 +8,7 @@ class Save_client extends CI_Controller {
     }
 
     public function index() {
-    }
-    
-    public function write_excel() {
-        
+
         $messenger_user_id = $this->input->post('messenger_user_id');
         $fb_id = $this->input->post('user_fb_id');
         $first_name = $this->input->post('first_name');
@@ -20,9 +17,13 @@ class Save_client extends CI_Controller {
         $user_location = $this->input->post('user_location');
         $gender = $this->input->post('gender');
         
-//        date_default_timezone_set('Asia/Ho_Chi_Minh');
-//        $date = date('m/d/Y h:i:s a', time());
+        $date = date('Y/m/Y h:i:s', time());
         
+        if (!$messenger_user_id) {
+            //$messenger_user_id = "23739371326772123333333";
+            return;
+        }
+
         $client_data = array(
             'user_app_id' => $messenger_user_id, 
             'user_fb_id' => $fb_id, 
@@ -33,7 +34,12 @@ class Save_client extends CI_Controller {
             'gender' => $gender
         );
         
+        //print_r($client_data);
+
         $this->client_model->insert_update($client_data);
+
+        //echo $this->db->last_query();
         exit;
+
     }
 }

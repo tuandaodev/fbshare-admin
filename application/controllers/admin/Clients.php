@@ -61,7 +61,8 @@ class Clients extends Admin_Controller {
                 'gender'        => 'Gender',
                 'phone_number'  => 'Phone Number',
                 'location'      => 'Location',
-                'created'       => 'Date Created'
+                'created'       => 'Date Created',
+                'updated'       => 'Date Updated'
             );
 
             $list_data = $this->client_model->get_clients();

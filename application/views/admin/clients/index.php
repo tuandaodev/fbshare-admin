@@ -26,24 +26,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>App ID</th>
                                     <th>FB UID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Gender</th>
                                     <th>Phone Number</th>
                                     <th>Location</th>
+                                    <th>Created</th>
+                                    <th>Updated</th>
                                 </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($client_list as $client) { ?>
                                 <tr>
                                     <td><?php echo $client['id'] ?></td>
+                                    <td><?php echo $client['user_app_id'] ?></td>
                                     <td><?php echo $client['user_fb_id'] ?></td>
                                     <td><?php echo $client['first_name'] ?></td>
                                     <td><?php echo $client['last_name'] ?></td>
                                     <td><?php echo $client['gender'] ?></td>
                                     <td><?php echo $client['phone_number'] ?></td>
                                     <td><?php echo $client['location'] ?></td>
+                                    <td><?php echo $client['created'] ?></td>
+                                    <td><?php echo $client['updated'] ?></td>
                                 </tr>
                             <?php } ?>
 
