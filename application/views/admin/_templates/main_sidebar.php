@@ -50,7 +50,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <li class="<?=active_link_controller('options')?>">
                             <a href="<?php echo site_url('admin/options'); ?>">
-                                <i class="fa fa-user"></i> <span>Options</span>
+                                <i class="fa fa-cogs"></i> <span>Options</span>
+                            </a>
+                        </li>
+
+                        <li class="<?=active_link_controller('clients')?>">
+                            <a href="<?php echo site_url('admin/clients'); ?>">
+                                <i class="fa fa-users"></i> <span>Clients</span>
                             </a>
                         </li>
 
@@ -59,6 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fa fa-user"></i> <span><?php echo lang('menu_users'); ?></span>
                             </a>
                         </li>
+
                         <li class="<?=active_link_controller('groups')?>">
                             <a href="<?php echo site_url('admin/groups'); ?>">
                                 <i class="fa fa-shield"></i> <span><?php echo lang('menu_security_groups'); ?></span>

@@ -8,6 +8,17 @@ class Client_model extends CI_Model {
         parent::__construct();
     }
     
+    public function get_clients()
+    {
+        $query = $this->db->query("SELECT * FROM clients");
+        
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+
     public function get_client($id)
     {
         $query = $this->db->query("SELECT * FROM clients WHERE id='$id'");
