@@ -28,7 +28,7 @@ def load_cookies(driver, location, url=None):
 
 @app.route('/')
 def home():
-    return 'Hello World!'
+    return 'Python Crawler API @TuanDaoDev!'
 
 @app.route('/api/crawl', methods=['GET'])
 def simple_crawl():
@@ -36,6 +36,7 @@ def simple_crawl():
     results = [{'result':url}]
     return jsonify(results)
 
+#Completed, DEV
 @app.route('/api/login', methods=['GET'])
 def login():
     global driver
@@ -59,7 +60,7 @@ def login():
 
     driver.get("https://mobile.facebook.com")
 
-    email = "tuandaohcmdev@gmail.com"
+    email = "tartarus31011990@gmail.com"
     password = "Minhtuan123@"
     
     driver.find_element_by_name('email').send_keys(email)
@@ -78,8 +79,9 @@ def login():
     #return jsonify(results)
     return message
 
-@app.route('/api/login2', methods=['GET'])
-def re_login():
+#Completed, DEV
+@app.route('/api/page_login', methods=['GET'])
+def page_login():
     global driver
 
     options = Options()
@@ -90,30 +92,37 @@ def re_login():
     options.add_argument('--no-sandbox')
     options.add_argument('--user-agent="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"')
 
-    capabilities = DesiredCapabilities.CHROME.copy()
 
     # Path where you want to save/load cookies to/from aka C:\my\fav\directory\cookies.txt
-    cookies_location = "cookies.txt"
+    cookies_location = "page-cookies.txt"
 
     #driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
+    capabilities = DesiredCapabilities.CHROME.copy()
 
     driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', desired_capabilities=capabilities, options=options)
 
+    driver.get("https://mobile.facebook.com")
+
+    email = "tartarus30012019@gmail.com"
+    password = "Minhtuan123@"
     
-    load_cookies(driver, cookies_location)
+    driver.find_element_by_name('email').send_keys(email)
+    driver.find_element_by_name('pass').send_keys(password)
 
+    #clicking on login button
+    driver.find_element_by_name('login').click()
 
-    driver.get("https://mobile.facebook.com/100030348953422?v=timeline")
-
+    save_cookies(driver, cookies_location)
+    
     # filling the form
     message = driver.page_source
 
     driver.quit()
-
     #results = [{'result':message}]
     #return jsonify(results)
     return message
 
+#Completed, DEV
 @app.route('/api/go_url', methods=['GET'])
 def go_url():
     global driver
@@ -155,6 +164,7 @@ def go_url():
 
     return source_html
 
+#Completed, PRODUCTION
 @app.route('/api/get_redirect', methods=['GET'])
 def get_redirect():
     global driver
@@ -178,7 +188,7 @@ def get_redirect():
     #not support on chrome, will test on firefox later
     #capabilities['pageLoadStrategy'] = "none"
 
-    cookies_location = "cookies.txt"
+    cookies_location = "page-cookies.txt"
 
     #driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
 
@@ -196,6 +206,7 @@ def get_redirect():
     print results
     return jsonify(results)
 
+#Completed, not USE
 @app.route('/api/check_share_url', methods=['GET'])
 def check_share_url():
     global driver
@@ -244,6 +255,7 @@ def check_share_url():
         results = {'result':0}
         return jsonify(results)
 
+#Completed, not USE
 @app.route('/api/go_user_profile', methods=['GET'])
 def go_user_profile():
     global driver
@@ -287,6 +299,7 @@ def go_user_profile():
 
     # filling the form
 
+#Completed, not USE
 @app.route('/api/check_share', methods=['GET'])
 def check_share():
     global driver
@@ -338,6 +351,7 @@ def check_share():
         results = {"set_attributes":{"has_shared": "0"}}
         return jsonify(results)
 
+#Not Complete
 @app.route('/api/check_share_tag', methods=['GET'])
 def check_share_tag():
     global driver
@@ -388,7 +402,7 @@ def check_share_tag():
 
     return results
 		
-
+#Not Complete
 @app.route('/api/get_fb_uid', methods=['GET'])
 def get_fb_uid():
     global driver

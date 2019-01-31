@@ -42,7 +42,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <tr>
                                     <td><?php echo $client['id'] ?></td>
                                     <td><?php echo $client['user_app_id'] ?></td>
-                                    <td><?php echo $client['user_fb_id'] ?></td>
+                                    <td><?php 
+                                    if ($client['user_fb_id'] ) {
+                                        echo '<a target="_blank" href="https://www.facebook.com/profile.php?id=' . $client['user_fb_id'] . '">' . $client['user_fb_id'] . '</a>';
+                                    } else {
+                                        echo $client['user_fb_id'];
+                                    }
+                                    ?></td>
                                     <td><?php echo $client['first_name'] ?></td>
                                     <td><?php echo $client['last_name'] ?></td>
                                     <td><?php echo $client['gender'] ?></td>
