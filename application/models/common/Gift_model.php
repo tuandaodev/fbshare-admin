@@ -45,4 +45,15 @@ class Gift_model extends CI_Model {
         return $last_id;
     }
     
+    public function get_gifts_by_ids($ids)
+    {
+        $query = $this->db->query("SELECT * FROM gifts WHERE id IN ('$ids')");
+        
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
 }
