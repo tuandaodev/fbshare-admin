@@ -1,2 +1,8 @@
 ALTER TABLE `fbshare`.`clients` 
 ADD COLUMN `gift_id` INT NULL AFTER `location`;
+
+CREATE TABLE `fbshare`.`gifts` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `created` DATETIME NULL,
+  PRIMARY KEY (`id`));

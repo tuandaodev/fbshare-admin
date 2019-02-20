@@ -31,6 +31,28 @@ class Options_model extends CI_Model {
             return FALSE;
         }
     }
+    
+    public function get_options_text()
+    {   
+        $query = $this->db->query("SELECT * FROM {$this->table} WHERE type = 'text'");
+        
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
+    public function get_option_gift()
+    {  
+        $query = $this->db->query("SELECT * FROM {$this->table} WHERE name = 'list_gift'");
+        
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
+    }
 
     public function update_option($name, $value)
     {

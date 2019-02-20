@@ -42,6 +42,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php endif; ?>
 <script src="<?php echo base_url($frameworks_dir . '/adminlte/js/adminlte.min.js'); ?>"></script>
 <script src="<?php echo base_url($frameworks_dir . '/domprojects/js/dp.min.js'); ?>"></script>
+
+<?php if ($this->router->fetch_class() == 'options'): ?>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="<?php echo base_url($assets_dir . '/js/ad-options.js'); ?>"></script>
+<?php endif; ?>
+
 </body>
 
 </html>

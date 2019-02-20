@@ -20,6 +20,8 @@ class Options extends Admin_Controller {
         }
         else
         {
+            $this->load->model('common/gift_model');
+            
             /* Title Page */
             $this->page_title->push("Options");
             $this->data['pagetitle'] = $this->page_title->show();
@@ -35,8 +37,12 @@ class Options extends Admin_Controller {
 
             /* Data */
             $this->data['message_public']        = (validation_errors()) ? validation_errors() : NULL;
-            $this->data['options'] = $this->option->get_options();
-
+            $this->data['options_text'] = $this->option->get_options_text();
+            $this->data['option_gift'] = $this->option->get_option_gift();
+            
+            $this->data['gift_list'] = $this->gift_model->get_gifts();
+            $this->data['gift_list_selected'] = unserialize($this->option->get_option('list_gift'));
+            
             if ($this->form_validation->run() == TRUE)
             {
                 $data = array(
@@ -51,6 +57,7 @@ class Options extends Admin_Controller {
                     'chatfuel_block_user_shared' => $this->input->post('chatfuel_block_user_shared'),
                     'chatfuel_block_user_not_shared' => $this->input->post('chatfuel_block_user_not_shared'),
                     'chatfuel_block_main_event' => $this->input->post('chatfuel_block_main_event'),
+                    'list_gift' => serialize($this->input->post('list_gift')),
                 );
 
                 foreach ($data as $key => $value) {

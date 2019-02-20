@@ -59,6 +59,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fa fa-users"></i> <span>Clients</span>
                             </a>
                         </li>
+                        
+                        <li class="<?=active_link_controller('gifts')?>">
+                            <a href="<?php echo site_url('admin/gifts'); ?>">
+                                <i class="fa fa-users"></i> <span>Gifts</span>
+                            </a>
+                        </li>
 
                         <li class="<?=active_link_controller('users')?>">
                             <a href="<?php echo site_url('admin/users'); ?>">

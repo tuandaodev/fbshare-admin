@@ -19,7 +19,7 @@
                         <?php echo $message_public; ?>
 
                         <?php echo form_open(current_url(), array('class' => 'form', 'id' => 'form-admin-options')); ?>
-                        <?php foreach ($options as $item): ?>
+                        <?php foreach ($options_text as $item): ?>
 
                         <div class="form-group">
                             <label for=""><?php echo $item['title']  ?></label>
@@ -28,6 +28,21 @@
                         </div>
 
                         <?php endforeach; ?>
+                        
+                        <div class="form-group">
+                            <label for=""><?php echo $option_gift['title'] ?></label>
+                            
+                            <select class="select2" name="<?php echo $option_gift['name'] ?>[]" id="<?php echo $option_gift['name'] ?>" multiple="multiple" style="width:100%;">
+                                <?php foreach ($gift_list as $gift) { 
+                                    if (in_array($gift['id'], $gift_list_selected)) {
+                                    ?>
+                                    <option value="<?php echo $gift['id'] ?>" selected><?php echo $gift['name'] ?></option>
+                                <?php } else { ?>
+                                    <option value="<?php echo $gift['id'] ?>"><?php echo $gift['name'] ?></option>
+                                <?php } }?>
+                            </select>
+                        </div>
+                        
                         <div class="box-footer">
                             <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => "Save Options")); ?>
                         </div>
