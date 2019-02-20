@@ -21,7 +21,7 @@ class Check_share extends CI_Controller {
 //        $obj = "326208034543057_532845900545935";
         $sharedpost_obj = "{$page_id}_{$post_id}";
         
-        $call_user_posts = 'https://graph.facebook.com/v3.2/' . $user_fb_id . '?fields=posts{story,object_id,message_tags,type,parent_id}&access_token=' . $user_access_token;
+        $call_user_posts = 'https://graph.facebook.com/v3.2/' . $user_fb_id . '?fields=posts{story,object_id,message_tags,type,parent_id,with_tags}&access_token=' . $user_access_token;
 
         $data_user_posts = callAPI('GET', $call_user_posts, false);
         $data_user_posts = json_decode($data_user_posts, true);
@@ -39,20 +39,28 @@ class Check_share extends CI_Controller {
             $posts = $data_user_posts['posts']['data'];
             if (count($posts) > 0) {
                 foreach ($posts as $post_key => $post) {
+                    $count_shared_inpost = 0;
+                    $count_shared_withusers = 0;
                     if (isset($post['parent_id']) && $post['parent_id'] == $sharedpost_obj) {
                         $response['has_shared'] = 1;
                         $response['result'] = 0;
                         if (isset($posts[$post_key]['message_tags']) && !empty($posts[$post_key]['message_tags'])) {
-                            if (count($posts[$post_key]['message_tags']) > 2) {
-                                $response['result'] = 1;
-                                $response['has_tags'] = 1;
-                                
-                                $count_shared = count($posts[$post_key]['message_tags']);
-                                break;
-                            } else {
-                                $count_shared = count($posts[$post_key]['message_tags']);
-                            }
-                        } 
+                            $count_shared_inpost = count($posts[$post_key]['message_tags']);
+                        }
+                        
+                        if (isset($posts[$post_key]['with_tags']['data']) && !empty($posts[$post_key]['with_tags']['data'])) {
+                            $count_shared_withusers = count($posts[$post_key]['with_tags']['data']);
+                        }
+                        
+                        if ($count_shared_withusers + $count_shared_inpost >= $count_shared) {
+                            $count_shared = $count_shared_withusers + $count_shared_inpost;
+                        }
+                        
+                        if ($count_shared > 2) {
+                            $response['result'] = 1;
+                            $response['has_tags'] = 1;
+                            break;
+                        }
                     }
                 }
             }
