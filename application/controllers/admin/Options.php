@@ -9,19 +9,49 @@ class Options extends Admin_Controller {
 
         /* Load :: Common */
         $this->breadcrumbs->unshift(1, "Options", 'admin/options');
+        $this->load->model('common/gift_model');
     }
 
+    private function build_gift_message($gifts) {
+        
+        $gift_message = '';
+        $quick_replies = [];
+        
+        if (count($gifts) > 0) {
+            $gift_ids = implode(',', $gifts);
 
-	public function index()
-	{
+            $gift_list = $this->gift_model->get_gifts_by_ids($gift_ids);
+            foreach ($gift_list as $gift) {
+                $gift_obj = array("title" => $gift['name'], "set_attributes" => array("user_gift_id" => $gift['id'], "user_gift_name" => $gift['name']));
+                $quick_replies[] = $gift_obj;
+            }
+        } else {
+            return $gift_message;
+        }
+        
+        $messages[] = array('text' => "text", "quick_replies" => $quick_replies, "quick_reply_options" => array("process_text_by_ai" => false, "text_attribute_name" => "user_message"));
+        
+
+        $res['messages'] = $messages;
+        
+//        header('Content-Type: application/json');
+//        echo "<pre>";
+//        print_r($res);
+//        echo "</pre>";
+//        exit;
+        
+        $gift_message = json_encode($res);
+        return $gift_message;
+    }
+    
+    public function index()
+    {
         if ( ! $this->ion_auth->logged_in() OR ! $this->ion_auth->is_admin())
         {
             redirect('auth/login', 'refresh');
         }
         else
         {
-            $this->load->model('common/gift_model');
-            
             /* Title Page */
             $this->page_title->push("Options");
             $this->data['pagetitle'] = $this->page_title->show();
@@ -45,6 +75,11 @@ class Options extends Admin_Controller {
             
             if ($this->form_validation->run() == TRUE)
             {
+                $gifts = $this->input->post('list_gift');
+                
+                //Build Gift Message
+                $gift_message = $this->build_gift_message($gifts);
+                
                 $data = array(
                     'page_id' => $this->input->post('page_id'),
                     'post_id' => $this->input->post('post_id'),
@@ -57,7 +92,8 @@ class Options extends Admin_Controller {
                     'chatfuel_block_user_shared' => $this->input->post('chatfuel_block_user_shared'),
                     'chatfuel_block_user_not_shared' => $this->input->post('chatfuel_block_user_not_shared'),
                     'chatfuel_block_main_event' => $this->input->post('chatfuel_block_main_event'),
-                    'list_gift' => serialize($this->input->post('list_gift')),
+                    'list_gift' => serialize($gifts),
+                    'gift_message' => $gift_message
                 );
 
                 foreach ($data as $key => $value) {
@@ -72,5 +108,5 @@ class Options extends Admin_Controller {
                 $this->template->admin_render('admin/options/option', $this->data);
             }
         }
-	}
+    }
 }

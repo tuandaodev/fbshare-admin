@@ -12,14 +12,12 @@ class Test extends CI_Controller {
     
     public function index() {
         
-        $test = base_url();
+        $test = $this->option->get_option("gift_message");
         
-        $data['user_fb_id'] = "123123123";
-        $data['user_app_id'] = "6767456456546";
-        $this->client_model->insert($data);
-        
-        
-//        $page_id = $this->option->get_option("page_id");
+        echo "<pre>";
+        print_r($test);
+        echo "</pre>";
+        exit;
 //        
 //        $updated = $this->option->update_option('user_access_token', 'testdone');
 //        
