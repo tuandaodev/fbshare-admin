@@ -29,8 +29,7 @@ class Options extends Admin_Controller {
             return $gift_message;
         }
         
-        $messages[] = array('text' => "text", "quick_replies" => $quick_replies, "quick_reply_options" => array("process_text_by_ai" => false, "text_attribute_name" => "user_message"));
-        
+        $messages[] = array('text' => "Chọn quà tặng:", "quick_replies" => $quick_replies, "quick_reply_options" => array("process_text_by_ai" => false, "text_attribute_name" => "user_message"));
 
         $res['messages'] = $messages;
         

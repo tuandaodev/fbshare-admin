@@ -33,6 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Gender</th>
                                     <th>Phone Number</th>
                                     <th>Location</th>
+                                    <th>Gift ID</th>
+                                    <th>Gift Name</th>
                                     <th>Created</th>
                                     <th>Updated</th>
                                 </tr>
@@ -54,6 +56,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td><?php echo $client['gender'] ?></td>
                                     <td><?php echo $client['phone_number'] ?></td>
                                     <td><?php echo $client['location'] ?></td>
+                                    <td><?php echo $client['gift_id'] ?></td>
+                                    <td><?php echo $client['gift_name'] ?></td>
                                     <td><?php echo $client['created'] ?></td>
                                     <td><?php echo $client['updated'] ?></td>
                                 </tr>

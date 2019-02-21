@@ -35,7 +35,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                                                                 <td><?php echo $gift['description'] ?></td>
 												<td><?php echo $gift['created'] ?></td>
 												<td>
-													<?php echo anchor('admin/gifts/edit/'.$gift['id'], "Edit"); ?>
+                                                                                                    <?php echo anchor('admin/gifts/edit/'.$gift['id'], "Edit"); ?>-
+                                                                                                    <?php echo anchor('admin/gifts/delete/'.$gift['id'], "Delete"); ?>
 												</td>
 											</tr>
 <?php }?>

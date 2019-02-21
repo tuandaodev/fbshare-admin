@@ -37,6 +37,12 @@ class Gift_model extends CI_Model {
         return $this->db->update('gifts', $data, $where);
     }
     
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('gifts');
+    }
+    
     public function insert($data)
     {
         $this->db->insert('gifts', $data);
