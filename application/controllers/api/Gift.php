@@ -6,6 +6,7 @@ class Gift extends CI_Controller {
 
     function __construct() {
          parent::__construct();
+         $this->load->model('common/client_model');
     }
 
     public function send_gift() {
@@ -23,7 +24,11 @@ class Gift extends CI_Controller {
         $gift_name = $this->input->post('user_gift_name');
         
         if (!$messenger_user_id) {
-            return;
+            $messages[] = array('text' => json_encode($_POST));
+            $response['messages'] = $messages;
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
         }
 
         $client_data = array(
@@ -41,12 +46,11 @@ class Gift extends CI_Controller {
             echo json_encode($response);
             exit;
         } else {
-            $messages[] = array('text' => "Log Query: " . $this->db->last_query());
+            $messages[] = array('text' => "Lỗi với Log Query: " . $this->db->last_query());
             $response['messages'] = $messages;
             header('Content-Type: application/json');
             echo json_encode($response);
             exit;
         }
-        
     }
 }
