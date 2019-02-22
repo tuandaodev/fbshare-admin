@@ -70,7 +70,6 @@ class Client_model extends CI_Model {
     public function insert_update($data) {
         $query = $this->db->query("SELECT id FROM clients WHERE user_app_id='{$data['user_app_id']}'");
         if ($query->num_rows() > 0) {
-//            $client_id = $query->row()->id;
             $user_app_id = $data['user_app_id'];
             unset($data['user_app_id']);
 
