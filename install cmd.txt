@@ -5,3 +5,4 @@ https://tecadmin.net/setup-selenium-with-chromedriver-on-debian/
 pkill Xvfb
 xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
 
+nohup python main.py </dev/null &>/dev/null &
