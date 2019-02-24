@@ -65,6 +65,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fa fa-gift"></i> <span>Gifts</span>
                             </a>
                         </li>
+                        
+                        <li class="<?=active_link_controller('user_token')?>">
+                            <a href="<?php echo site_url('admin/user_token'); ?>">
+                                <i class="fa fa-cogs"></i> <span>User Token</span>
+                            </a>
+                        </li>
 
                         <li class="<?=active_link_controller('users')?>">
                             <a href="<?php echo site_url('admin/users'); ?>">

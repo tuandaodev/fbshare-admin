@@ -93,4 +93,29 @@ class Client_model extends CI_Model {
             return FALSE;
         }
     }
+    
+    public function get_stats($time = '')
+    {
+        $timeSQL = '';
+        
+        if ($time == 'today') {
+            $timeSQL = 'WHERE updated >= CURRENT_DATE()';
+        }
+        if ($time == 'week') {
+            $timeSQL = 'WHERE YEARWEEK(updated)= YEARWEEK(CURDATE())';
+        }
+        if ($time == 'month') {
+            $timeSQL = 'WHERE Year(updated)=Year(CURDATE()) AND Month(updated)= Month(CURDATE())';
+        }
+        
+        $query = $this->db->query("SELECT count(id) as count FROM clients $timeSQL");
+        
+//        echo $this->db->last_query();
+        
+        if ($query->num_rows() > 0) {
+            return $query->row()->count;
+        } else {
+            return 0;
+        }
+    }
 }

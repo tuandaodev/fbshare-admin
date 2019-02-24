@@ -46,21 +46,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <div class="row">
                         <div class="col-md-12">
-<?php
-/*
-if ($url_exist) {
-    echo 'OK';
-} else {
-    echo 'KO';
-}
-*/
-?>
                         </div>
 
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Title</h3>
+                                    <h3 class="box-title">Stats</h3>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                     </div>
@@ -68,19 +59,23 @@ if ($url_exist) {
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p class="text-center text-uppercase"><strong>Resources</strong></p>
+                                            <p class="text-center text-uppercase"><strong>Client Stats</strong></p>
                                             <div class="progress-group">
-                                                <span class="progress-text">Disk use space</span>
-                                                <span class="progress-number"><strong><?php echo byte_format($disk_usespace, 2); ?></strong>/<?php echo byte_format($disk_totalspace, 2); ?></span>
+                                                <span class="progress-text">Today/Week</span>
+                                                <span class="progress-number"><strong><?php echo $client_today ?></strong>/<?php echo $client_week ?></span>
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-aqua" role="progressbar" aria-valuenow="<?php echo $disk_usepercent; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $disk_usepercent; ?>%"></div>
+                                                    <?php if ($client_week>0 && round($client_today/$client_week*100)) { ?>
+                                                    <div class="progress-bar progress-bar-aqua" role="progressbar" aria-valuenow="<?php echo round($client_today/$client_week*100); ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo round($client_today/$client_week*100); ?>%"></div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                             <div class="progress-group">
-                                                <span class="progress-text">Memory usage</span>
-                                                <span class="progress-number"><strong><?php echo byte_format($memory_usage, 2); ?></strong>/<?php echo byte_format($memory_peak_usage, 2); ?></span>
+                                                <span class="progress-text">This Month/Total</span>
+                                                <span class="progress-number"><strong><?php echo $client_month ?></strong>/<?php echo $client_total ?></span>
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-red" role="progressbar" aria-valuenow="<?php echo $memory_usepercent; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memory_usepercent; ?>%"></div>
+                                                    <?php if ($client_total>0 && round($client_month/$client_total*100)) { ?>
+                                                    <div class="progress-bar progress-bar-red" role="progressbar" aria-valuenow="<?php echo round($client_month/$client_total*100); ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo round($client_month/$client_total*100); ?>%"></div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
