@@ -143,8 +143,16 @@ class Getid extends CI_Controller {
 
                 $inbox_url = trim($get_data_inbox_url['link']);
                 $inbox_url = unicode_decode($inbox_url);
+                
+                $re = '/inbox\/(.*?)\//';
+                preg_match($re, $inbox_url, $matches);
+                if (isset($matches[0]) && !empty($matches[0])) {
+                    $inbox_url = "https://en-gb.facebook.com/" . $page_id . '/' . $matches[0];
+                } else {
+                    $inbox_url = "https://en-gb.facebook.com/" . $inbox_url;
+                }
 
-                $inbox_url = "https://en-gb.facebook.com/" . $inbox_url;
+//                $inbox_url = "https://en-gb.facebook.com/" . $page_id . '/' . $inbox_url;
 
                 $call_fbuid_url = $crawler_api . '/api/get_redirect?url=' . $inbox_url;
                 
