@@ -6,3 +6,5 @@ pkill Xvfb
 xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
 
 nohup python main.py </dev/null &>/dev/null &
+
+nohup xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar </dev/null &>/dev/null &
