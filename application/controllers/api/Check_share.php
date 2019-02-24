@@ -6,12 +6,23 @@ class Check_share extends CI_Controller {
 
     function __construct() {
          parent::__construct();
+         $this->load->model('common/user_token_model');
     }
     
     public function index() {
 //        $access_token = "EAAAAUaZA8jlABALGHvzZBE4xbKQNCzm0F8KOdbAweW4X2CXTu3pgmYnuymswzZCZAIDcjvzHD94lTd2AOZASlvzRWnXtArzRlyfbLABRAQecgyGKp4gOOGFWU9GXuJWXexi94hCcoHzFT13a1BiFVq4xYdFmGhLz7ibSnItsZCmQZDZD";
+        $access_token_obj = $this->user_token_model->get_random_token();
         
-        $user_access_token = $this->option->get_option('user_access_token');
+        if ($access_token_obj) {
+            $user_access_token = $access_token_obj['value'];
+            log_message('error', 'Random token fail. Use default token.');
+        } else {
+            $user_access_token = $this->option->get_option('user_access_token');
+        }
+//        echo "<pre>";
+//        print_r($access_token_obj);
+//        echo "</pre>";
+//        exit;
         $page_id = $this->option->get_option('page_id');
         $post_id = $this->option->get_option('post_id');
         
@@ -20,15 +31,26 @@ class Check_share extends CI_Controller {
         
 //        $obj = "326208034543057_532845900545935";
         $sharedpost_obj = "{$page_id}_{$post_id}";
-        
         $call_user_posts = 'https://graph.facebook.com/v3.2/' . $user_fb_id . '?fields=posts{story,object_id,message_tags,type,parent_id,with_tags}&access_token=' . $user_access_token;
-
         $data_user_posts = callAPI('GET', $call_user_posts, false);
         $data_user_posts = json_decode($data_user_posts, true);
         
-//        echo "<pre>";
-//        print_r($data_user_posts);
-//        echo "</pre>";
+        if (isset($data_user_posts['error'])) {
+            
+            log_message('error', json_encode($data_user_posts));
+            
+            $update_data['status'] = 0;
+            $update_id = $this->user_token_model->update($update_data, $access_token_obj['id']);
+            if (!$update_id) {
+                log_message('error', 'Cannot update user_token status = 0');
+            }
+            
+            $access_token_obj = $this->user_token_model->get_random_token();
+            
+            $call_user_posts = 'https://graph.facebook.com/v3.2/' . $user_fb_id . '?fields=posts{story,object_id,message_tags,type,parent_id,with_tags}&access_token=' . $user_access_token;
+            $data_user_posts = callAPI('GET', $call_user_posts, false);
+            $data_user_posts = json_decode($data_user_posts, true);
+        }
         
         $response['result'] = -1;
         $response['has_shared'] = 0;

@@ -51,15 +51,16 @@ class User_token_model extends CI_Model {
         return $last_id;
     }
     
-    public function get_gifts_by_ids($ids)
+    public function get_random_token()
     {
-        $query = $this->db->query("SELECT * FROM gifts WHERE id IN ($ids)");
-        
-//        echo $this->db->last_query();
-//        exit;   
+        $query = $this->db->query("SELECT *
+                                    FROM user_token
+                                    WHERE status = 1
+                                    ORDER BY RAND()
+                                    LIMIT 1");
         
         if ($query->num_rows() > 0) {
-            return $query->result_array();
+            return $query->row_array();
         } else {
             return FALSE;
         }
