@@ -92,7 +92,8 @@ class Options extends Admin_Controller {
                     'chatfuel_block_user_not_shared' => $this->input->post('chatfuel_block_user_not_shared'),
                     'chatfuel_block_main_event' => $this->input->post('chatfuel_block_main_event'),
                     'list_gift' => serialize($gifts),
-                    'gift_message' => $gift_message
+                    'gift_message' => $gift_message,
+                    'fb_app_id' => $this->input->post('fb_app_id'),
                 );
 
                 foreach ($data as $key => $value) {

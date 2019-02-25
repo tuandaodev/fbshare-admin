@@ -15,7 +15,8 @@ class Go_share extends CI_Controller {
         $post_id = $this->option->get_option('post_id');
         
         $post_url = "https://www.facebook.com/permalink.php?story_fbid={$post_id}&id={$page_id}";
-        $app_id = "1721288211334117";
+
+        $app_id = $this->option->get_option('fb_app_id');
         
         $shared_url = base_url() . 'api/shared/' . $user_app_id;
         $share_link = "https://www.facebook.com/dialog/share?app_id={$app_id}&display=page&href={$post_url}&redirect_uri=$shared_url";
