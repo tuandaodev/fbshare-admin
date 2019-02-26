@@ -37,3 +37,6 @@ ERROR - 2019-02-26 10:50:45 --> 404 Page Not Found: admin/Test%20url/index
 ERROR - 2019-02-26 10:50:57 --> 404 Page Not Found: admin/Test%20url/index
 ERROR - 2019-02-26 10:52:08 --> 404 Page Not Found: admin/Test%20url/index
 ERROR - 2019-02-26 10:52:49 --> 404 Page Not Found: admin/Test%20url/index
+ERROR - 2019-02-26 11:30:04 --> 404 Page Not Found: Assets/frameworks
+ERROR - 2019-02-26 11:33:24 --> 404 Page Not Found: Assets/frameworks
+ERROR - 2019-02-26 11:35:06 --> 404 Page Not Found: Assets/frameworks

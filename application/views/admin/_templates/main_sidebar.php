@@ -66,6 +66,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </a>
                         </li>
                         
+                        <li class="<?=active_link_controller('stats')?>">
+                            <a href="<?php echo site_url('admin/stats'); ?>">
+                                <i class="fa fa-bar-chart"></i> <span>Stats</span>
+                            </a>
+                        </li>
+                        
                         <li class="<?=active_link_controller('user_token')?>">
                             <a href="<?php echo site_url('admin/user_token'); ?>">
                                 <i class="fa fa-cogs"></i> <span>User Token</span>

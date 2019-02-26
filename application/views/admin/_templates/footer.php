@@ -49,6 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url($assets_dir . '/js/ad-options.js'); ?>"></script>
 <?php endif; ?>
 
+<?php if ($this->router->fetch_class() == 'stats'): ?>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="<?php echo base_url($assets_dir . '/js/stats.js'); ?>"></script>
+    
+<?php endif; ?>    
+    
 </body>
 
 </html>
