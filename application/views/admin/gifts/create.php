@@ -24,6 +24,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="subtitle" class="col-sm-2 control-label">Sub Title</label>
+                            <div class="col-sm-10">
+                                <?php echo form_input($subtitle); ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image_url" class="col-sm-2 control-label">Image URL</label>
+                            <div class="col-sm-10">
+                                <?php echo form_input($image_url); ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="group_name" class="col-sm-2 control-label">Gift Description</label>
                             <div class="col-sm-10">
                                 <?php echo form_input($description); ?>

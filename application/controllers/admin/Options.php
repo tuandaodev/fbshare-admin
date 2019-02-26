@@ -12,8 +12,61 @@ class Options extends Admin_Controller {
         $this->load->model('common/gift_model');
     }
 
-    private function build_gift_message($gifts) {
+    public function build_gift_message($gifts) {
+//        if ($type = 1) {
+//            return $this->gift_texts();
+//        } else {
+            return $this->gift_images($gifts);
+//        }
+    }
+    
+    private function gift_images($gifts) {
+        $gift_message = '';
+        $element = [];
         
+        if (count($gifts) > 0) {
+            $gift_ids = implode(',', $gifts);
+            
+            $gift_list = $this->gift_model->get_gifts_by_ids($gift_ids);
+            foreach ($gift_list as $gift) {
+                $choose_gift_url = base_url() . 'api/gift/choose/XUSER_ID/' . $gift['id'];
+                $gift_obj = array(
+                    "title" => $gift['name'], 
+                    "image_url" => $gift['image_url'],
+                    "subtitle"  => $gift['subtitle'],
+                    "buttons" => array( array (
+                        "type" => "json_plugin_url", //"web_url", 
+                        "title" => "Chọn quà này",
+                        "url"   =>  $choose_gift_url,
+                        ) ),
+                    );
+                $element[] = $gift_obj;
+            }
+        } else {
+            return $element;
+        }
+        
+        $attachment = array(
+            "type"  =>  "template",
+            "payload"   => array(
+                "template_type" =>  "generic",
+                "image_aspect_ratio"    =>  "square",
+                "elements"  => $element,
+            ),
+        );
+        
+        $messages['attachment'] = $attachment;
+        $res['messages'][] = $messages;
+        
+        header('Content-Type: application/json');
+        $gift_message = json_encode($res);
+        
+        return $gift_message;
+    }
+    
+    // Current Not use
+    /*
+    private function gift_texts() {
         $gift_message = '';
         $quick_replies = [];
         
@@ -29,19 +82,19 @@ class Options extends Admin_Controller {
             return $gift_message;
         }
         
-        $messages[] = array('text' => "Chọn quà tặng:", "quick_replies" => $quick_replies, "quick_reply_options" => array("process_text_by_ai" => false, "text_attribute_name" => "user_message"));
+        $messages[] = array(
+            'text' => "Chọn quà tặng:", 
+            "quick_replies" => $quick_replies, 
+            "quick_reply_options" => array( "process_text_by_ai" => false, 
+                                            "text_attribute_name" => "user_message")
+            );
 
         $res['messages'] = $messages;
-        
-//        header('Content-Type: application/json');
-//        echo "<pre>";
-//        print_r($res);
-//        echo "</pre>";
-//        exit;
         
         $gift_message = json_encode($res);
         return $gift_message;
     }
+    */
     
     public function index()
     {
@@ -67,14 +120,17 @@ class Options extends Admin_Controller {
             /* Data */
             $this->data['message_public']        = (validation_errors()) ? validation_errors() : NULL;
             $this->data['options_text'] = $this->option->get_options_text();
-            $this->data['option_gift'] = $this->option->get_option_gift();
+            
+            $this->data['gift_type'] = $this->option->get_option_obj('gift_type');
             
             $this->data['gift_list'] = $this->gift_model->get_gifts();
+            $this->data['obj_option_gift'] = $this->option->get_option_obj('list_gift');
             $this->data['gift_list_selected'] = unserialize($this->option->get_option('list_gift'));
             
             if ($this->form_validation->run() == TRUE)
             {
                 $gifts = $this->input->post('list_gift');
+                $gift_type = $this->input->post('gift_type');
                 
                 //Build Gift Message
                 $gift_message = $this->build_gift_message($gifts);
@@ -94,6 +150,7 @@ class Options extends Admin_Controller {
                     'list_gift' => serialize($gifts),
                     'gift_message' => $gift_message,
                     'fb_app_id' => $this->input->post('fb_app_id'),
+                    'gift_type' => $gift_type,
                 );
 
                 foreach ($data as $key => $value) {

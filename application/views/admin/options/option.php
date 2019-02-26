@@ -29,10 +29,18 @@
 
                         <?php endforeach; ?>
                         
-                        <div class="form-group">
-                            <label for=""><?php echo $option_gift['title'] ?></label>
+                        <div class="form-group hidden" >
+                            <label for=""><?php echo $gift_type['title'] ?></label>
                             
-                            <select class="select2" name="<?php echo $option_gift['name'] ?>[]" id="<?php echo $option_gift['name'] ?>" multiple="multiple" style="width:100%;">
+                            <select class="form-control" name="<?php echo $gift_type['name'] ?>" id="<?php echo $gift_type['name'] ?>" >
+                                <option value="1" <?php if ($gift_type['value'] == 1) echo 'selected' ?>>Text</option>
+                                <option value="2" <?php if ($gift_type['value'] == 2) echo 'selected' ?>>Image</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for=""><?php echo $obj_option_gift['title'] ?></label>
+                            <select class="select2" name="<?php echo $obj_option_gift['name'] ?>[]" id="<?php echo $obj_option_gift['name'] ?>" multiple="multiple" style="width:100%;">
                                 <?php foreach ($gift_list as $gift) { 
                                     if (in_array($gift['id'], $gift_list_selected)) {
                                     ?>

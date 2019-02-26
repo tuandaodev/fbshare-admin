@@ -22,6 +22,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<th>ID</th>
 												<th>Name</th>
+                                                                                                <th>Sub Title</th>
+                                                                                                <th>Image</th>
                                                                                                 <th>Description</th>
 												<th>Created</th>
                                                                                                 <th>Options</th>
@@ -32,6 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<td><?php echo $gift['id'] ?></td>
                                                                                                 <td><?php echo $gift['name'] ?></td>
+                                                                                                <td><?php echo $gift['subtitle'] ?></td>
+                                                                                                <?php if ($gift['image_url']) { ?>
+                                                                                                <td><img src="<?php echo $gift['image_url'] ?>" height="42" width="42"></td>
+                                                                                                <?php } else { ?> 
+                                                                                                <td>Not Set</td>
+                                                                                                <?php } ?>
                                                                                                 <td><?php echo $gift['description'] ?></td>
 												<td><?php echo $gift['created'] ?></td>
 												<td>

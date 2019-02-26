@@ -47,6 +47,8 @@ class Gifts extends Admin_Controller {
         if ($this->form_validation->run() == TRUE) {
             $insert_data['name'] = $this->input->post('name');
             $insert_data['description'] = $this->input->post('description');
+            $insert_data['subtitle'] = $this->input->post('subtitle');
+            $insert_data['image_url'] = $this->input->post('image_url');
             $new_gift_id = $this->gift_model->insert($insert_data);
             if ($new_gift_id) {
                 redirect('admin/gifts', 'refresh');
@@ -60,6 +62,22 @@ class Gifts extends Admin_Controller {
                 'value' => $this->form_validation->set_value('name')
             );
 
+            $this->data['subtitle'] = array(
+                'name' => 'subtitle',
+                'id' => 'subtitle',
+                'type' => 'text',
+                'class' => 'form-control',
+                'value' => $this->form_validation->set_value('subtitle')
+            );
+            
+            $this->data['image_url'] = array(
+                'name' => 'image_url',
+                'id' => 'image_url',
+                'type' => 'text',
+                'class' => 'form-control',
+                'value' => $this->form_validation->set_value('image_url')
+            );
+
             $this->data['description'] = array(
                 'name' => 'description',
                 'id' => 'description',
@@ -67,7 +85,7 @@ class Gifts extends Admin_Controller {
                 'class' => 'form-control',
                 'value' => $this->form_validation->set_value('description')
             );
-
+            
             /* Load Template */
             $this->template->admin_render('admin/gifts/create', $this->data);
         }
@@ -105,6 +123,8 @@ class Gifts extends Admin_Controller {
             $update_id = $this->input->post('id');
             $update_data['name'] = $this->input->post('name');
             $update_data['description'] = $this->input->post('description');
+            $update_data['subtitle'] = $this->input->post('subtitle');
+            $update_data['image_url'] = $this->input->post('image_url');
                 $update_id = $this->gift_model->update($update_data, $update_id);
                 if ($update_id)
                 {
@@ -131,6 +151,22 @@ class Gifts extends Admin_Controller {
                     'type'  => 'text',
                     'class' => 'form-control',
                     'value' => $gift_info['name']
+            );
+            
+            $this->data['subtitle'] = array(
+                    'name'  => 'subtitle',
+                    'id'    => 'subtitle',
+                    'type'  => 'text',
+                    'class' => 'form-control',
+                    'value' => $gift_info['subtitle']
+            );
+            
+            $this->data['image_url'] = array(
+                    'name'  => 'image_url',
+                    'id'    => 'image_url',
+                    'type'  => 'text',
+                    'class' => 'form-control',
+                    'value' => $gift_info['image_url']
             );
 
             $this->data['description'] = array(

@@ -1,0 +1,11 @@
+UPDATE `fbshare`.`options` SET `type`='select2' WHERE `id`='12';
+
+INSERT INTO `fbshare`.`options` (`id`, `name`, `value`, `title`, `type`) VALUES ('', 'gift_type', '2', 'Gift Type', 'select');
+
+ALTER TABLE `fbshare`.`gifts` 
+ADD COLUMN `subtitle` VARCHAR(255) NULL AFTER `name`,
+ADD COLUMN `image_url` VARCHAR(1024) NULL AFTER `subtitle`;
+
+ALTER TABLE `fbshare`.`options` 
+CHANGE COLUMN `name` `name` VARCHAR(45) NULL DEFAULT NULL ,
+CHANGE COLUMN `value` `value` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL ;

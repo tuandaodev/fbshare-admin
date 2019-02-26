@@ -20,6 +20,17 @@ class Options_model extends CI_Model {
             return FALSE;
         }
     }
+    public function get_option_obj($name)
+    {   
+        $query = $this->db->query("SELECT * FROM {$this->table} WHERE name='$name'");
+        
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
 
     public function get_options()
     {   
@@ -43,16 +54,16 @@ class Options_model extends CI_Model {
         }
     }
     
-    public function get_option_gift()
-    {  
-        $query = $this->db->query("SELECT * FROM {$this->table} WHERE name = 'list_gift'");
-        
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
-        } else {
-            return FALSE;
-        }
-    }
+//    public function get_option_gift()
+//    {  
+//        $query = $this->db->query("SELECT * FROM {$this->table} WHERE name = 'list_gift'");
+//        
+//        if ($query->num_rows() > 0) {
+//            return $query->row_array();
+//        } else {
+//            return FALSE;
+//        }
+//    }
 
     public function update_option($name, $value)
     {
